@@ -7,9 +7,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-/**
- * Created by Karolinka i Sebuś on 30.01.2016.
- */
+
 public class Enemy {
 
     ArrayList<ImageView> listaObrazow;
@@ -107,27 +105,36 @@ public class Enemy {
     public void dodge(double playerY){
         double zmienna = mEnemy.getLayoutY();
 
-        if (playerY-zmienna<40 && playerY-zmienna>=0 && mEnemy.getLayoutY()>=0){
+  /*      if (Math.abs(playerY-zmienna)<50){
+            System.out.println("uciekaj");
+
+        }*/
+        if (playerY - zmienna < 60 && playerY - zmienna >= 0 && mEnemy.getLayoutY() >= 0) {
+
 
             if (mEnemy.getLayoutY()<50 && playerY<30){
                 mEnemy.setLayoutY(++zmienna);
                 mEnemy.setLayoutY(++zmienna);
                 mEnemy.setLayoutY(++zmienna);
-            }else if( mEnemy.getLayoutY()>0) {mEnemy.setLayoutY(--zmienna);
 
+            }else if( mEnemy.getLayoutY()>0) {mEnemy.setLayoutY(--zmienna);
+            }
         }
 
 
-        if (playerY-zmienna>-50 && playerY-zmienna<0 && mEnemy.getLayoutY()<=315){
+        if (playerY - zmienna > -60 && playerY - zmienna < 0 && mEnemy.getLayoutY() <= 315) {
+
 
             if (mEnemy.getLayoutY()>260 && playerY>270){
                 mEnemy.setLayoutY(--zmienna);
                 mEnemy.setLayoutY(--zmienna);
                 mEnemy.setLayoutY(--zmienna);
-            }else if( mEnemy.getLayoutY()<315) {mEnemy.setLayoutY(++zmienna);}
 
+            } else if (mEnemy.getLayoutY() < 315) {
+                mEnemy.setLayoutY(++zmienna);
+            }
 
         }
 
-    }}
+    }
 }

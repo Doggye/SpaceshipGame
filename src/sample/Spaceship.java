@@ -7,15 +7,13 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-/**
- * Created by Karolinka i Sebuś on 30.01.2016.
- */
+
 public class Spaceship {
 
     ArrayList<ImageView> listaObrazow;
     ImageView mSpaceship = new ImageView(new Image("img/spaceship.png"));
-    private Double wielkosc =40.0;
     int dragg = 0;
+    private Double wielkosc = 40.0;
 
     public Spaceship(Pane pane){
 

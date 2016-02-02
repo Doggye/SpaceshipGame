@@ -41,11 +41,9 @@ public class Controller {
     int predkosc =4;
 
     Enemy mEnemy;
-
-    private int mPunkty = 0;
     Spaceship samolot;
-
     ImageView tlo = new ImageView(new Image("img/galaxy.png"));
+    private int mPunkty = 0;
 
 
     public Controller() {
@@ -243,8 +241,7 @@ public class Controller {
     private double losowaniePola() {
         Random random = new Random();
         double wylosowana;
-        double start = mEnemy.getosY();
-        //int poprzedniaLosowa = mWylosowanePole;
+        double start = mEnemy.getosY() / 10;
         do {
             wylosowana = random.nextInt(30);
             wylosowana = wylosowana * 10;
