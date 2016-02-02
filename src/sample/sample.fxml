@@ -1,0 +1,33 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:controller="sample.Controller"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="rocik">
+
+    <ImageView  > <Image url="/img/galaxy.png" requestedHeight="400" preserveRatio="true"></Image> </ImageView>
+    <ImageView  opacity="0.7" fx:id="starsy" AnchorPane.leftAnchor="-50"> <Image url="/img/stars.png" requestedHeight="380" preserveRatio="true" ></Image> </ImageView>
+    <ImageView  opacity="0.4" fx:id="starsy2" AnchorPane.leftAnchor="0"> <Image url="/img/stars.png" requestedHeight="360" preserveRatio="false" ></Image> </ImageView>
+
+
+    <Button text="Ludzik"
+            fx:id="butonik"
+            onAction="#akcja"
+            GridPane.columnIndex="0"
+></Button>
+
+
+    <Button text="Enemy" fx:id="dugi" onAction="#drugi"
+            AnchorPane.rightAnchor="0"
+            AnchorPane.bottomAnchor="30"
+            opacity="0"
+    ></Button>
+
+
+    <Label text="${controller.ileAmmo}" fx:id="ziomek" style="-fx-font-fill:white"></Label>
+    <Label text="Punkty" fx:id="plotek" style="-fx-text-fill: yellow; -fx-font-size:16; -fx-font-weight: bold" AnchorPane.leftAnchor="200"></Label>
+
+
+
+</AnchorPane>
