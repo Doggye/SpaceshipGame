@@ -19,23 +19,35 @@ public class Controller {
     @FXML
     AnchorPane fxmlRoot;
     @FXML
-    Label mLabelPoints;
+    Label mLabelPoints, tipsy;
     @FXML
     ImageView starsy, starsy2;
     ArrayList<ImageView> mImageViewArrayList;
     ArrayList<Timeline> mTimelineArrayList;
-    Timeline mBackgroundTimeline, mMBackgroundTimeline2, mGameLoop;
+    Timeline mBackgroundTimeline, mMBackgroundTimeline2, mGameLoop, mTipsyTimeline;
     ArrayList<String> mKeyPeressedArrayList;
     int mShootDeley;
     int mSpeed = 4;
     Spaceship mSpaceship;
     Enemy mEnemy;
     ImageView mBackgroundImage = new ImageView(new Image("img/galaxy.png"));
+    boolean mIsTips;
     private int mPunkty = 0;
 
     @FXML
     public void initialize() {
 
+        mTipsyTimeline = new Timeline();
+        mTipsyTimeline.setCycleCount(Animation.INDEFINITE);
+        mTipsyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(tipsy.opacityProperty(), 0.1)));
+        mTipsyTimeline.setAutoReverse(true);
+        mTipsyTimeline.play();
+
+
+        //mLabelTips.setText("Press W,A,S,D to move Press M to shoot.");
+        // mLabelTips.setLayoutY(150);
+        // mLabelTips.setLayoutX(150);
+        //fxmlRoot.getChildren().add(mLabelTips);
         mBackgroundImage.setFitHeight(300);
         mBackgroundImage.setPreserveRatio(true);
         mSpaceship = new Spaceship(fxmlRoot);
@@ -49,6 +61,7 @@ public class Controller {
         mGameLoop = new Timeline();
         mGameLoop.setCycleCount(Animation.INDEFINITE);
         mGameLoop.getKeyFrames().add(new KeyFrame(Duration.millis(16), event1 -> {
+
 
             double x = mSpaceship.getosX();
             double y = mSpaceship.getosY();
@@ -87,6 +100,9 @@ public class Controller {
         }));
         mGameLoop.play();
         fxmlRoot.setOnKeyPressed(event -> {
+
+            tipsy.setVisible(false);
+            mTipsyTimeline.stop();
 
 
             switch (event.getCode()) {

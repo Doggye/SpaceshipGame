@@ -15,7 +15,12 @@
     <ImageView opacity="0.4" fx:id="starsy2" AnchorPane.leftAnchor="0">
         <Image url="/img/stars.png" requestedHeight="360" preserveRatio="false"/>
     </ImageView>
-    <Button/>
+
+    <Label wrapText="true" fx:id="tipsy" text="${'Press W,A,S,D to move,\n          M to shoot.'}"
+           AnchorPane.bottomAnchor="150" AnchorPane.leftAnchor="200"
+           style="-fx-text-fill: silver; -fx-font-size: 20; -fx-font-weight: bold"></Label>
+
+    <Button opacity="0"/>
     <Label text="Points: 0" fx:id="mLabelPoints" style="-fx-text-fill: yellow; -fx-font-size:16; -fx-font-weight: bold"
-           AnchorPane.leftAnchor="200"/>
+           AnchorPane.leftAnchor="250"/>
 </AnchorPane>
