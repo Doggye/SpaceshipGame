@@ -4,9 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,183 +17,131 @@ import java.util.Random;
 public class Controller {
 
     @FXML
-    AnchorPane rocik;
-    //GridPane rocik;
+    AnchorPane fxmlRoot;
     @FXML
-    Button butonik, dugi;
+    Label mLabelPoints;
     @FXML
-    Label ziomek, plotek;
-    @FXML
-    ImageView starsy, starsy2, starsy21;
-    Button mClon;
-    ArrayList<Button> listaButonow;
-    ArrayList<ImageView> listaObrazow;
-    ArrayList<Button> bufforlistaButonow;
-    ArrayList<Timeline> listaTime;
-    Timeline mBackgroundTime, mBackgroundTime2, mTime;
-    ArrayList<String> lista;
-    double x = 0;
-    double y = 0;
-    int fps = 0;
-    int zmienna=0;
-    int predkosc =4;
-
+    ImageView starsy, starsy2;
+    ArrayList<ImageView> mImageViewArrayList;
+    ArrayList<Timeline> mTimelineArrayList;
+    Timeline mBackgroundTimeline, mMBackgroundTimeline2, mGameLoop;
+    ArrayList<String> mKeyPeressedArrayList;
+    int mShootDeley;
+    int mSpeed = 4;
+    Spaceship mSpaceship;
     Enemy mEnemy;
-    Spaceship samolot;
-    ImageView tlo = new ImageView(new Image("img/galaxy.png"));
+    ImageView mBackgroundImage = new ImageView(new Image("img/galaxy.png"));
     private int mPunkty = 0;
-
-
-    public Controller() {
-
-    }
-
-
-    public void akcja(ActionEvent event) {
-
-/*        try {
-            //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("nowy.fxml"));
-            Parent root1 = FXMLLoader.load(getClass().getResource("nowy.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-            Stage stage = new Stage();
-            Scene scena = new Scene(root1, 400, 500);
-            stage.setScene(scena);
-
-            stage.initStyle(StageStyle.UTILITY);
-            stage.initModality(Modality.WINDOW_MODAL);
-
-            stage.setFullScreenExitHint(":asdasdasd");
-            //stage.setFullScreen(true);
-            stage.setAlwaysOnTop(true);
-            stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("l"));
-            stage.show();
-            System.out.println("zwykle " + stage.getScene());
-            System.out.println("z wykrzy " + !stage.isShowing());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }
-
 
     @FXML
     public void initialize() {
 
-
-
-        tlo.setFitHeight(300);
-        tlo.setPreserveRatio(true);
-        //rocik.getChildren().add(tlo);
-        butonik.setVisible(false);
-        samolot = new Spaceship(rocik);
-        mEnemy = new Enemy(rocik);
-        listaObrazow = new ArrayList<>();
-
-        //listaButonow= new ArrayList<>();
-        //bufforlistaButonow = new ArrayList<>();
-        listaTime = new ArrayList<>();
-        //double wysokosc = butonik.getScene().getHeight();
-        // rocik.getChildren().addAll(listaObrazow);
-        samolot.drag();
+        mBackgroundImage.setFitHeight(300);
+        mBackgroundImage.setPreserveRatio(true);
+        mSpaceship = new Spaceship(fxmlRoot);
+        mEnemy = new Enemy(fxmlRoot);
+        mImageViewArrayList = new ArrayList<>();
+        mTimelineArrayList = new ArrayList<>();
+        mSpaceship.drag();
         mEnemy.drag();
+        mShootDeley = 0;
+        mKeyPeressedArrayList = new ArrayList<>();
+        mGameLoop = new Timeline();
+        mGameLoop.setCycleCount(Animation.INDEFINITE);
+        mGameLoop.getKeyFrames().add(new KeyFrame(Duration.millis(16), event1 -> {
+
+            double x = mSpaceship.getosX();
+            double y = mSpaceship.getosY();
 
 
-        lista = new ArrayList<>();
-        mTime = new Timeline();
-        mTime.setCycleCount(Animation.INDEFINITE);
-        mTime.getKeyFrames().add(new KeyFrame(Duration.millis(16), event1 -> {
+            if (mKeyPeressedArrayList.contains("A")) {
 
-            double x = samolot.getosX();
-            double y = samolot.getosY();
+                mSpaceship.setLEFT(x -= mSpeed);
+            }
+            if (mKeyPeressedArrayList.contains("D")) {
 
-            if (zmienna<10){
-                zmienna++;
+                mSpaceship.setRIGHT(x += mSpeed);
+            }
+            if (mKeyPeressedArrayList.contains("W")) {
+
+                mSpaceship.setUP(y -= mSpeed);
+            }
+            if (mKeyPeressedArrayList.contains("S")) {
+
+                mSpaceship.setDOWN(y += mSpeed);
             }
 
-            if (lista.contains("A")) {
-
-                samolot.setLEFT(x -= predkosc);
+            if (mShootDeley < 10) {
+                mShootDeley++;
             }
-            if (lista.contains("D")) {
-
-                samolot.setRIGHT(x += predkosc);
-            }
-            if (lista.contains("W")) {
-
-                samolot.setUP(y -= predkosc);
-            }
-            if (lista.contains("S")) {
-
-                samolot.setDOWN(y += predkosc);
-            }
-            if (lista.contains("M")) {
+            if (mKeyPeressedArrayList.contains("M")) {
 
 
-                if (zmienna==10){
-                    zmienna=0;
+                if (mShootDeley == 10) {
+                    mShootDeley = 0;
                     strzal();
                     }
             }
 
-            //mEnemy.follow(samolot.getosY());
-
-            mEnemy.dodge(samolot.getosY());
+            mEnemy.dodge(mSpaceship.getosY());
         }));
-        mTime.play();
-        rocik.setOnKeyPressed(event -> {
+        mGameLoop.play();
+        fxmlRoot.setOnKeyPressed(event -> {
 
 
             switch (event.getCode()) {
                 case S:
-                    if (!lista.contains("S")) {
-                        lista.add("S");
+                    if (!mKeyPeressedArrayList.contains("S")) {
+                        mKeyPeressedArrayList.add("S");
                     }
                     break;
                 case D:
-                    if (!lista.contains("D")) {
-                        lista.add("D");
+                    if (!mKeyPeressedArrayList.contains("D")) {
+                        mKeyPeressedArrayList.add("D");
                     }
                     break;
                 case A:
-                    if (!lista.contains("A")) {
-                        lista.add("A");
+                    if (!mKeyPeressedArrayList.contains("A")) {
+                        mKeyPeressedArrayList.add("A");
                     }
                     break;
                 case W:
-                    if (!lista.contains("W")) {
-                        lista.add("W");
+                    if (!mKeyPeressedArrayList.contains("W")) {
+                        mKeyPeressedArrayList.add("W");
                     }
                     break;
                 case M:
-                    if (!lista.contains("M")) {
-                        lista.add("M");
+                    if (!mKeyPeressedArrayList.contains("M")) {
+                        mKeyPeressedArrayList.add("M");
                     }
                     break;
                 case O:
-                    System.out.println("Lista obrazowe "+listaObrazow.toString());
-                    System.out.println("Lista time "+listaTime.toString());
-                    System.out.println("Lista obrazowe klawiszy "+lista.toString());
-                    System.out.println("lista rovik "+rocik.getChildren().toString());
+                    System.out.println("ImageViewArray " + mImageViewArrayList.toString());
+                    System.out.println("TimelineArray " + mTimelineArrayList.toString());
+                    System.out.println("KeyPressedArray " + mKeyPeressedArrayList.toString());
+                    System.out.println("FXMLRootArray " + fxmlRoot.getChildren().toString());
+                    System.out.println("EnemyArray " + mEnemy.getListaObrazow());
                     break;
 
             }
         });
 
-        rocik.setOnKeyReleased(event -> {
+        fxmlRoot.setOnKeyReleased(event -> {
             switch (event.getCode()) {
                 case S:
-                    lista.remove("S");
+                    mKeyPeressedArrayList.remove("S");
                     break;
                 case D:
-                    lista.remove("D");
+                    mKeyPeressedArrayList.remove("D");
                     break;
                 case W:
-                    lista.remove("W");
+                    mKeyPeressedArrayList.remove("W");
                     break;
                 case A:
-                    lista.remove("A");
+                    mKeyPeressedArrayList.remove("A");
                     break;
                 case M:
-                    lista.remove("M");
+                    mKeyPeressedArrayList.remove("M");
                     break;
 
             }
@@ -203,38 +149,24 @@ public class Controller {
         });
 
 
+        mBackgroundTimeline = new Timeline();
+        mBackgroundTimeline.setCycleCount(Animation.INDEFINITE);
+        mBackgroundTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(15000), new KeyValue(starsy.translateXProperty(), -900)));
 
-        mBackgroundTime = new Timeline();
-        mBackgroundTime.setCycleCount(Animation.INDEFINITE);
-        mBackgroundTime.getKeyFrames().add(new KeyFrame(Duration.millis(15000), new KeyValue(starsy.translateXProperty(), -900)));
+        mBackgroundTimeline.play();
 
-        mBackgroundTime.play();
+        mMBackgroundTimeline2 = new Timeline();
+        mMBackgroundTimeline2.setCycleCount(Animation.INDEFINITE);
+        mMBackgroundTimeline2.getKeyFrames().add(new KeyFrame(Duration.millis(25000), new KeyValue(starsy2.translateXProperty(), -950)));
 
-        mBackgroundTime2 = new Timeline();
-        mBackgroundTime2.setCycleCount(Animation.INDEFINITE);
-        mBackgroundTime2.getKeyFrames().add(new KeyFrame(Duration.millis(25000), new KeyValue(starsy2.translateXProperty(), -950)));
-
-        mBackgroundTime2.play();
-
-
-    }
-
-    private void kolizja() {
-
-    }
-
-
-    public void drugi(ActionEvent event) {
+        mMBackgroundTimeline2.play();
 
 
     }
 
     private boolean trafienie(ImageView pocisk) {
-        boolean trafienie = false;
-        if (pocisk.getBoundsInParent().intersects(mEnemy.getBounds())) {
-            trafienie = true;
-        }
-        return trafienie;
+        return pocisk.getBoundsInParent().intersects(mEnemy.getBounds());
+
     }
 
 
@@ -252,43 +184,41 @@ public class Controller {
 
     private void strzal() {
 
-        if (listaTime.size() <= 3) {
-            listaTime.add(new Timeline());
-            listaTime.forEach(timeline -> {
+        if (mTimelineArrayList.size() <= 3) {
+            mTimelineArrayList.add(new Timeline());
+            mTimelineArrayList.forEach(timeline -> {
                 if (!(timeline.getStatus() == Animation.Status.RUNNING)) {
-                    //Button lol = new Button("lol");
+
                     ImageView laser = new ImageView(new Image("img/greenLaserRay.png"));
                     laser.setFitWidth(50);
                     laser.setPreserveRatio(true);
-                    final double[] osX = {samolot.getLaserX()};
-                    final double[] osY = {samolot.getLaserY()};
+                    final double[] osX = {mSpaceship.getLaserX()};
+                    final double[] osY = {mSpaceship.getLaserY()};
                     laser.setTranslateX(osX[0]);
                     laser.setTranslateY(osY[0]);
-                    //listaButonow.clear();
-                    listaObrazow.clear();
-                    listaObrazow.add(laser);
-                    rocik.getChildren().addAll(listaObrazow);
+                    mImageViewArrayList.clear();
+                    mImageViewArrayList.add(laser);
+                    fxmlRoot.getChildren().addAll(mImageViewArrayList);
                     timeline.setCycleCount(60);
-                    //timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(laser.translateXProperty(), 300)
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(16), event1 -> {
                         laser.setTranslateX(osX[0] += 15);
                         if (trafienie(laser)) {
-                            rocik.getChildren().remove(laser);
-                            rocik.getChildren().remove(listaObrazow);
-                            listaObrazow.remove(laser);
-                            listaTime.remove(timeline);
+                            fxmlRoot.getChildren().remove(laser);
+                            fxmlRoot.getChildren().remove(mImageViewArrayList);
+                            mImageViewArrayList.remove(laser);
+                            mTimelineArrayList.remove(timeline);
                             timeline.stop();
-                            listaTime.remove(timeline);
-                            plotek.setText(String.valueOf(++mPunkty));
+                            mTimelineArrayList.remove(timeline);
+                            mLabelPoints.setText("Points: " + String.valueOf(++mPunkty));
                             mEnemy.setTranslateY(losowaniePola());
 
                         }
                     }));
 
                     timeline.setOnFinished(event1 -> {
-                        listaObrazow.remove(laser);
-                        listaTime.remove(timeline);
-                        rocik.getChildren().remove(laser);
+                        mImageViewArrayList.remove(laser);
+                        mTimelineArrayList.remove(timeline);
+                        fxmlRoot.getChildren().remove(laser);
                     });
                     timeline.play();
                 }

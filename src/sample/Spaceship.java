@@ -12,15 +12,11 @@ public class Spaceship {
 
     ArrayList<ImageView> listaObrazow;
     ImageView mSpaceship = new ImageView(new Image("img/spaceship.png"));
-    int dragg = 0;
     private Double wielkosc = 40.0;
 
     public Spaceship(Pane pane){
 
-
         listaObrazow = new ArrayList<>();
-        //pane.setTopAnchor(mEnemy,50.0);
-        //double wysokosc = butonik.getScene().getHeight();
         mSpaceship.setPreserveRatio(true);
         mSpaceship.setFitHeight(wielkosc);
 
@@ -29,14 +25,6 @@ public class Spaceship {
         pane.getChildren().addAll(listaObrazow);
     }
 
-    public void setWielkosc(Double wielkosc) {
-        mSpaceship.setFitHeight(wielkosc/8);
-
-    }
-
-
-    public ImageView getImageView(){
-        return mSpaceship;  }
 
     public double getosX(){
         return mSpaceship.getLayoutX();
@@ -69,11 +57,6 @@ public class Spaceship {
             mSpaceship.setLayoutY(zmiennaY-offsetY[0]);
 
         });
-
-    }
-
-    public double getPX(){
-        return mSpaceship.getLayoutX();
 
     }
 

@@ -11,10 +11,8 @@ import java.util.ArrayList;
 public class Enemy {
 
     ArrayList<ImageView> listaObrazow;
-    //ImageView mEnemy = new ImageView(new Image("img/spaceship.png"));
     ImageView mEnemy = new ImageView(new Image("img/gif.gif"));
     private Double wielkosc =50.0;
-
 
     public Enemy(Pane pane){
 
@@ -27,19 +25,12 @@ public class Enemy {
         pane.getChildren().addAll(listaObrazow);
     }
 
-    public void setWielkosc(Double wielkosc) {
-        mEnemy.setFitHeight(wielkosc/8);
-    }
-
-    public ImageView getImageView(){
-        return mEnemy;  }
-
-    public double getosX(){
-        return mEnemy.getLayoutX();
-    }
-
     public double getosY(){
         return mEnemy.getLayoutY();
+    }
+
+    public ArrayList<ImageView> getListaObrazow() {
+        return listaObrazow;
     }
 
     public void drag(){
@@ -62,26 +53,6 @@ public class Enemy {
 
     }
 
-    public double getPX(){
-        return mEnemy.getLayoutX();
-
-    }
-
-    public double getLaserY(){
-
-        return mEnemy.getLayoutY()+(15);
-    }
-    public double getLaserX(){
-        return mEnemy.getLayoutX()+40;
-    }
-
-    public void setY (double y){
-        mEnemy.setLayoutY(y);
-    }
-
-    public void setX (double x){
-        mEnemy.setLayoutX(x);
-    }
 
     public Bounds getBounds() {
         return mEnemy.getBoundsInParent();
@@ -104,13 +75,7 @@ public class Enemy {
 
     public void dodge(double playerY){
         double zmienna = mEnemy.getLayoutY();
-
-  /*      if (Math.abs(playerY-zmienna)<50){
-            System.out.println("uciekaj");
-
-        }*/
         if (playerY - zmienna < 60 && playerY - zmienna >= 0 && mEnemy.getLayoutY() >= 0) {
-
 
             if (mEnemy.getLayoutY()<50 && playerY<30){
                 mEnemy.setLayoutY(++zmienna);
@@ -120,7 +85,6 @@ public class Enemy {
             }else if( mEnemy.getLayoutY()>0) {mEnemy.setLayoutY(--zmienna);
             }
         }
-
 
         if (playerY - zmienna > -60 && playerY - zmienna < 0 && mEnemy.getLayoutY() <= 315) {
 

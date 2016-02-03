@@ -4,29 +4,18 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="sample.Controller"
-            fx:id="rocik">
+            fx:id="fxmlRoot">
 
-    <ImageView  > <Image url="/img/galaxy.png" requestedHeight="400" preserveRatio="true"></Image> </ImageView>
-    <ImageView  opacity="0.7" fx:id="starsy" AnchorPane.leftAnchor="-50"> <Image url="/img/stars.png" requestedHeight="380" preserveRatio="true" ></Image> </ImageView>
-    <ImageView  opacity="0.4" fx:id="starsy2" AnchorPane.leftAnchor="0"> <Image url="/img/stars.png" requestedHeight="360" preserveRatio="false" ></Image> </ImageView>
-
-
-    <Button text="Ludzik"
-            fx:id="butonik"
-            onAction="#akcja"
-            GridPane.columnIndex="0"
-></Button>
-
-
-    <Button text="Enemy" fx:id="dugi" onAction="#drugi"
-            AnchorPane.rightAnchor="0"
-            AnchorPane.bottomAnchor="30"
-            opacity="0"
-    ></Button>
-
-    <Label text="${controller.ileAmmo}" fx:id="ziomek" style="-fx-font-fill:white"></Label>
-    <Label text="Punkty" fx:id="plotek" style="-fx-text-fill: yellow; -fx-font-size:16; -fx-font-weight: bold" AnchorPane.leftAnchor="200"></Label>
-
-
-
+    <ImageView>
+        <Image url="/img/galaxy.png" requestedHeight="400" preserveRatio="true"/>
+    </ImageView>
+    <ImageView opacity="0.7" fx:id="starsy" AnchorPane.leftAnchor="-50">
+        <Image url="/img/stars.png" requestedHeight="380" preserveRatio="true"/>
+    </ImageView>
+    <ImageView opacity="0.4" fx:id="starsy2" AnchorPane.leftAnchor="0">
+        <Image url="/img/stars.png" requestedHeight="360" preserveRatio="false"/>
+    </ImageView>
+    <Button/>
+    <Label text="Points: 0" fx:id="mLabelPoints" style="-fx-text-fill: yellow; -fx-font-size:16; -fx-font-weight: bold"
+           AnchorPane.leftAnchor="200"/>
 </AnchorPane>
